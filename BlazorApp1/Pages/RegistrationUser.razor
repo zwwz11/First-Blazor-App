@@ -1,0 +1,42 @@
+﻿@page "/registrationUser"
+
+<PageTitle>Retistration User</PageTitle>
+@using BlazorApp1.Data.Model
+@using BlazorApp1.Data.Service
+@using Radzen
+@using Radzen.Blazor
+@inject UserService userService
+@inject IJSRuntime jsRuntime
+
+
+
+
+<h2>RegistrationUser</h2>
+<br />
+
+<div class="container-fluid">
+    <div class="row px-3">
+        <div class="col-md-6 col-lg-4 p-3">
+            <RadzenCard>
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">User Name</RadzenText>
+                <RadzenTextBox Placeholder="User Name..." Class="w-100" @bind-Value=@user.Name/>
+
+                <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">User Age</RadzenText>
+                <RadzenNumeric Placeholder="User Age..." Class="w-100"  @bind-Value=@user.Age />
+
+                <RadzenButton Text="Register" ButtonStyle="ButtonStyle.Primary" Style="margin-top: 10px;" Click="@(args => ClickSaveUser())"/>
+            </RadzenCard>
+        </div>
+    </div>
+</div>
+
+@code {
+    private User user = new User();
+
+    private async void ClickSaveUser()
+    {
+        userService.SaveUser(user);
+        user = new User();
+        await jsRuntime.InvokeVoidAsync("alert", "Registration Complete!");
+    }
+}
